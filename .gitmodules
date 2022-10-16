@@ -1,0 +1,3 @@
+[submodule "replacer"]
+	path = replacer
+	url = https://github.com/nmke-de/replacer

@@ -25,3 +25,9 @@ for i in $(find $src | grep -vE "\.ssgignore|template\.html|res/"); do
 done
 
 # TODO create blog
+
+for i in $(find "$src/blog" | grep -v "^$src/blog$"); do
+	echo -e "$(stat -c %W $i)\t$i"
+done | sort -n | tail -n 10 | cut -f2 | for i in $(cat); do
+	echo $i
+done

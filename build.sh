@@ -3,6 +3,9 @@
 src="$1"
 dest="$2"
 
+[ -z "$src" ] && src="../src"
+[ -z "$dest" ] && dest="../www"
+
 build_dir () {
 	[ -z "$1" ] && return
 	[ -d "$1" ] || mkdir "$1"

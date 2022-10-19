@@ -11,7 +11,13 @@ build_dir () {
 	[ -d "$1" ] || mkdir "$1"
 }
 
-for i in $(find $src | grep -vE "\.ssgignore|template\.html|res/"); do
+build_item() {
+	[ -z "$1" ] && return # filename
+	[ -z "$2" ] && return # template
+	replacer/replace "$1" -t "$2" -c ./smu
+}
+
+for i in $(find $src | grep -vE "\.ssgignore|template*|res/"); do
 	target=$(echo "$i" | sed "s $src $dest " | sed "s/.md$/.html/")
 	# Decide whether to build or not
 	build_i=''
@@ -25,9 +31,13 @@ for i in $(find $src | grep -vE "\.ssgignore|template\.html|res/"); do
 done
 
 # TODO create blog
-
+mkdir "$dest/.tmp"
+rm "$dest/rss.xml"
 for i in $(find "$src/blog" | grep -v "^$src/blog$"); do
 	echo -e "$(stat -c %W $i)\t$i"
 done | sort -n | tail -n 10 | cut -f2 | for i in $(cat); do
 	echo $i
+	build_item $i "$src/template_rss.xml" >> "$dest/.tmp/rss.xml"
 done
+replacer/replace "$dest/.tmp/rss.xml" -t "$src/template_rssi.xml" -c /usr/bin/cat >> "$dest/rss.xml"
+rm -rf "$dest/.tmp"

@@ -13,10 +13,14 @@ build_dir () {
 	[ -d "$1" ] || mkdir "$1"
 }
 
-build_item() {
+build_item () {
 	[ -z "$1" ] && return # filename
 	[ -z "$2" ] && return # template
 	replacer/replace "$1" -t "$2" -c ./smu
+}
+
+title () {
+	grep -E "^[#][^#]" "$1" | head -n 1 | cut -f2 -d'#'
 }
 
 for i in $(find $src | grep -vE "\.ssgignore|template*|res/"); do
@@ -29,7 +33,7 @@ for i in $(find $src | grep -vE "\.ssgignore|template*|res/"); do
 	[ -z $build_i ] && continue
 	# Build
 	echo "Building $target from $i"
-	replacer/replace "$i" -t "$src/template.html" -c ./smu -T "$(echo $(basename $i) | cut -f1 -d. | tr _ ' ')" > "$target"
+	replacer/replace "$i" -t "$src/template.html" -c ./smu -T "$(title $i)" > "$target"
 done
 
 # TODO create blog

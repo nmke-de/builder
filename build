@@ -29,7 +29,7 @@ for i in $(find $src | grep -vE "\.ssgignore|template*|res/"); do
 	[ -z $build_i ] && continue
 	# Build
 	echo "Building $target from $i"
-	replacer/replace "$i" -t "$src/template.html" -c ./smu > "$target"
+	replacer/replace "$i" -t "$src/template.html" -c ./smu -T "$(echo $(basename $i) | cut -f1 -d. | tr _ ' ')" > "$target"
 done
 
 # TODO create blog

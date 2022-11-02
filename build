@@ -20,7 +20,7 @@ build_item () {
 }
 
 title () {
-	grep -E "^[#][^#]" "$1" | head -n 1 | cut -f2 -d'#'
+	grep -E "^[#][^#]" "$1" | head -n 1 | sed 's/ //' | cut -f2 -d'#'
 }
 
 for i in $(find $src | grep -vE "\.ssgignore|template*|res/"); do

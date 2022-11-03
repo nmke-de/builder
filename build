@@ -16,7 +16,8 @@ build_dir () {
 build_item () {
 	[ -z "$1" ] && return # filename
 	[ -z "$2" ] && return # template
-	replacer/replace "$1" -t "$2" -c ./smu -T "$(title $1)" -D "$(date '+%a, %d %b %Y %R:%S %z')"
+	time="$(stat -c %w $1)"
+	replacer/replace "$1" -t "$2" -c ./smu -T "$(title $1)" -D "$(date -R -d "$time")"
 }
 
 title () {

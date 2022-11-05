@@ -3,7 +3,7 @@
 src="$1"
 dest="$2"
 
-. config.sh
+[ -f ./config.sh ] && . ./config.sh
 
 [ $(basename $0) = "clean" ] && rm -rf $(find $dest | grep -vE "^$dest(/res)?$") && exit
 
@@ -26,7 +26,7 @@ title () {
 target () {
 	[ -z "$1" ] && return # filename
 	[ -z "$2" ] && return # prefix
-	echo "$1" | sed "s $src $dest " | sed "s/.md$/.html/"
+	echo "$1" | sed "s $src $2 " | sed "s/.md$/.html/"
 }
 
 for i in $(find $src | grep -vE "\.ssgignore|template*|res/"); do

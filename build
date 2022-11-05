@@ -17,15 +17,21 @@ build_item () {
 	[ -z "$1" ] && return # filename
 	[ -z "$2" ] && return # template
 	time="$(stat -c %w $1)"
-	replacer/replace "$1" -t "$2" -c ./smu -T "$(title $1)" -D "$(date -R -d "$time")"
+	replacer/replace "$1" -t "$2" -c ./smu -T "$(title $1)" -D "$(date -R -d "$time")" -U "$(target $1 "$websitename")"
 }
 
 title () {
 	grep -E "^[#][^#]" "$1" | head -n 1 | sed 's/ //' | cut -f2 -d'#'
 }
 
+target () {
+	[ -z "$1" ] && return # filename
+	[ -z "$2" ] && return # prefix
+	echo "$1" | sed "s $src $dest " | sed "s/.md$/.html/"
+}
+
 for i in $(find $src | grep -vE "\.ssgignore|template*|res/"); do
-	target=$(echo "$i" | sed "s $src $dest " | sed "s/.md$/.html/")
+	target=$(target "$i" "$dest")
 	# Decide whether to build or not
 	build_i=''
 	[ -d "$i" ] && build_dir "$target" && continue

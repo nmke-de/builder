@@ -3,8 +3,6 @@
 src="$1"
 dest="$2"
 
-[ $(basename $0) = "clean" ] && rm -rf $(find $dest | grep -vE "^$dest(/res)?$") && exit
-
 build_dir () {
 	[ -z "$1" ] && return
 	[ -d "$1" ] || mkdir "$1"
@@ -56,6 +54,8 @@ build_feed () {
 }
 
 [ -f ./config.sh ] && . ./config.sh
+[ $(basename $0) = "clean" ] && echo $(find $dest | grep -vE "^$dest(/res)?$") && exit
+
 
 for i in $(find $src | grep -vE "\.ssgignore|template*|res/"); do
 	target=$(target "$i" "$dest")

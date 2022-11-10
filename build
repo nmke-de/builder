@@ -3,6 +3,8 @@
 src="$1"
 dest="$2"
 
+dn=$(dirname $0)
+
 build_dir () {
 	[ -z "$1" ] && return
 	[ -d "$1" ] || mkdir "$1"
@@ -13,7 +15,7 @@ build_item () {
 	[ -z "$2" ] && return # template
 	[ -z "$3" ] && return # date format
 	time="$(stat -c %w $1)"
-	replacer/replace "$1" -t "$2" -c ./smu -T "$(title $1)" -D "$(date "$3" -d "$time")" -U "$(target $1 "$websitename")"
+	$dn/replacer/replace "$1" -t "$2" -c ./smu -T "$(title $1)" -D "$(date "$3" -d "$time")" -U "$(target $1 "$websitename")"
 }
 
 build_items () {
@@ -50,10 +52,10 @@ build_blog () {
 build_feed () {
 	[ -z "$1" ] && return # blogdir
 	[ -z "$2" ] && return # blogtitle
-	replacer/replace "$dest/.tmp/rss.xml" -t "$src/template_rssi.xml" -c /usr/bin/cat > "$dest/$1/rss.xml"
+	$dn/replacer/replace "$dest/.tmp/rss.xml" -t "$src/template_rssi.xml" -c /usr/bin/cat > "$dest/$1/rss.xml"
 }
 
-[ -f ./config.sh ] && . ./config.sh
+[ -f $dn/config.sh ] && . $dn/config.sh
 [ $(basename $0) = "clean" ] && rm -rf $(find $dest | grep -vE "^$dest(/res|/\.git.*)?$") && exit
 
 
@@ -67,7 +69,7 @@ for i in $(find $src | grep -vE "\.ssgignore|template*|res/"); do
 	[ -z $build_i ] && continue
 	# Build
 	echo "Building $target from $i"
-	replacer/replace "$i" -t "$src/template.html" -c ./smu -T "$(title $i)" > "$target"
+	$dn/replacer/replace "$i" -t "$src/template.html" -c ./smu -T "$(title $i)" > "$target"
 done
 
 # create blog

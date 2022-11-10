@@ -1,6 +1,6 @@
 
-[ -z "$src" ] && export src="../src"
-[ -z "$dest" ] && export dest="../www"
+[ -z "$src" ] && export src="$dn/../src"
+[ -z "$dest" ] && export dest="$dn/../www"
 
 export websitename="https://www.nmke.de"
 export blogs="blog	Blog
@@ -17,6 +17,6 @@ unset build_feed
 build_feed () {
 	[ -z "$1" ] && return # blogdir
 	[ -z "$2" ] && return # blogtitle
-	replacer/replace "$dest/.tmp/rss.xml" -t "$src/template_rssi.xml" -c /usr/bin/cat > "$dest/$1/rss.xml"
-	replacer/replace "$dest/.tmp/atom.xml" -t "$src/template_atomi.xml" -c /usr/bin/cat -D "$(date -I)" -U "$websitename/$1" -T "$2" > "$dest/$1/atom.xml"
+	$dn/replacer/replace "$dest/.tmp/rss.xml" -t "$src/template_rssi.xml" -c /usr/bin/cat > "$dest/$1/rss.xml"
+	$dn/replacer/replace "$dest/.tmp/atom.xml" -t "$src/template_atomi.xml" -c /usr/bin/cat -D "$(date -I)" -U "$websitename/$1" -T "$2" > "$dest/$1/atom.xml"
 }

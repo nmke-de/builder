@@ -34,7 +34,7 @@ target () {
 
 build_blog () {
 	[ -z "$1" ] && return # blogdir
-	[ -d "$dest/$1" ] || return # blogdir does not exit
+	[ -d "$dest/$1" ] || return # blogdir does not exist
 	[ -z "$2" ] && return # blogtitle
 	mkdir "$dest/.tmp"
 	[ -f "$dest/rss.xml" ] && rm "$dest/rss.xml"
@@ -71,7 +71,9 @@ for i in $(find $src | grep -vE "\.ssgignore|template*|res/"); do
 done
 
 # TODO create blog
-[ -z "$blogdirs" ] || for i in ${!blogdirs[@]}; do
-	echo "Building ${blogdirs[i]} with title ${blogtitles[i]}"
-	build_blog "${blogdirs[i]}" "${blogtitles[i]}"
+[ -z "$blogs" ] || echo "$blogs" | while read line; do
+	blogdir="$(printf $line | cut -f1)"
+	blogtitle="$(printf $line | cut -f2)"
+	echo "Building $blogdir with title $blogtitle"
+	build_blog "$blogdir" "$blogtitle"
 done

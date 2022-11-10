@@ -70,7 +70,7 @@ for i in $(find $src | grep -vE "\.ssgignore|template*|res/"); do
 	replacer/replace "$i" -t "$src/template.html" -c ./smu -T "$(title $i)" > "$target"
 done
 
-# TODO create blog
+# create blog
 [ -z "$blogs" ] || echo "$blogs" | while read line; do
 	blogdir="$(printf $line | cut -f1)"
 	blogtitle="$(printf $line | cut -f2)"

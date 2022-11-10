@@ -3,8 +3,6 @@
 [ -z "$dest" ] && export dest="../www"
 
 export websitename="https://www.nmke.de"
-#export blogdirs=(blog blog2)
-#export blogtitles=("Blog" "Blog 2")
 export blogs="blog	Blog
 blog2	Blog 2"
 

@@ -4,6 +4,7 @@ src="$1"
 dest="$2"
 
 dn=$(dirname $0)
+compiler=./smu
 
 build_dir () {
 	[ -z "$1" ] && return
@@ -15,7 +16,7 @@ build_item () {
 	[ -z "$2" ] && return # template
 	[ -z "$3" ] && return # date format
 	time="$(stat -c %w $1)"
-	$dn/replacer/replace "$1" -t "$2" -c ./smu -T "$(title $1)" -D "$(date "$3" -d "$time")" -U "$(target $1 "$websitename")"
+	$dn/replacer/replace "$1" -t "$2" -c $compiler -T "$(title $1)" -D "$(date "$3" -d "$time")" -U "$(target $1 "$websitename")"
 }
 
 build_items () {
@@ -69,7 +70,7 @@ for i in $(find $src | grep -vE "\.ssgignore|template*|res/"); do
 	[ -z $build_i ] && continue
 	# Build
 	echo "Building $target from $i"
-	$dn/replacer/replace "$i" -t "$src/template.html" -c ./smu -T "$(title $i)" > "$target"
+	$dn/replacer/replace "$i" -t "$src/template.html" -c $compiler -T "$(title $i)" > "$target"
 done
 
 # create blog

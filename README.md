@@ -16,3 +16,6 @@ Other than a POSIX compliant shell and coreutils (busybox or sbase should work t
 
 `./build [source-directory] [target-directory]`
 
+## Configuration
+
+Copy `config.def.sh` to `config.sh`, which is you config file.

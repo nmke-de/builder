@@ -57,7 +57,7 @@ build_feed () {
 }
 
 [ -f $dn/config.sh ] && . $dn/config.sh
-[ $(basename $0) = "clean" ] && rm -rf $(find $dest | grep -vE "^$dest(/res|/\.git.*)?$") && exit
+[ $(basename $0) = "clean" ] && rm -rf $(find $dest | grep -vE "^$dest(/res|/\.git.*|$ignorelist)?$") && exit
 
 
 for i in $(find $src | grep -vE "\.ssgignore|template*|res/"); do

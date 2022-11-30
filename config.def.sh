@@ -6,6 +6,8 @@ export websitename="https://www.nmke.de"
 export blogs="blog	Blog
 blog2	Blog 2"
 
+export ignorelist="/HANSI"
+
 unset build_items
 build_items () {
 	[ -z "$1" ] && return # item

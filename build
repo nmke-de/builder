@@ -75,9 +75,9 @@ for i in $(find $src | grep -vE "\.ssgignore|template*|res/"); do
 done
 
 # create blog
-[ -z "$blogs" ] || echo "$blogs" | while read line; do
-	blogdir="$(printf $line | cut -f1)"
-	blogtitle="$(printf $line | cut -f2)"
+[ -z "$blogs" ] || echo -E "$blogs" | while read line; do
+	blogdir="$(printf "$line\n" | cut -f1)"
+	blogtitle="$(printf "$line\n" | cut -f2)"
 	echo "Building $blogdir with title $blogtitle"
 	build_blog "$blogdir" "$blogtitle"
 done

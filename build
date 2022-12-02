@@ -67,6 +67,7 @@ for i in $(find $src | grep -vE "\.ssgignore|template*|res/"); do
 	[ -d "$i" ] && build_dir "$target" && continue
 	[ -f "$target" ] || build_i=yes
 	[ -z $build_i ] && [ $(stat -c %Y "$i") -gt $(stat -c %Y "$target") ] && build_i=yes
+	[ -z $build_i ] && [ $(stat -c %Y "$src/template.html") -gt $(stat -c %Y "$target") ] && build_i=yes
 	[ -z $build_i ] && continue
 	# Build
 	echo "Building $target from $i"
